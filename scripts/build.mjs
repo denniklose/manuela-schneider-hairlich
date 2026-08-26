@@ -13,6 +13,7 @@ async function copyDirectory(sourceDirectory) {
   const entries = await readdir(sourceDirectory, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory() && excluded.has(entry.name)) continue;
+    if (entry.isFile() && (entry.name === ".env" || entry.name.startsWith(".env."))) continue;
     const source = path.join(sourceDirectory, entry.name);
     const relative = path.relative(root, source);
     const destination = path.join(output, relative);
